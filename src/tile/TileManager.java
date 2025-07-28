@@ -13,14 +13,17 @@ public class TileManager {
 	GamePanel gp;
 	Tile[] tile;
 	int mapTileNum[][];
+	
+	
 
 	public TileManager(GamePanel gp) {
 		this.gp = gp;
 
 		tile = new Tile[10];
-		mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
+		mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
 		getTileImage();
+		loadMap("/maps/map01.txt");
 	}
 
 	public void getTileImage() {
@@ -31,31 +34,43 @@ public class TileManager {
 
 			tile[1] = new Tile();
 			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+			tile[1].collision = true;
 
 			tile[2] = new Tile();
 			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
+			tile[2].collision = true;
+
+			tile[3] = new Tile();
+			tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+
+			tile[4] = new Tile();
+			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+			tile[4].collision = true;
+
+			tile[5] = new Tile();
+			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void loadMap() {
+	public void loadMap(String str) {
 		try {
-			InputStream is = getClass().getResourceAsStream("/maps/map01.txt");
+			InputStream is = getClass().getResourceAsStream(str);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			int col = 0;
 			int row = 0;
-			while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
+			while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
 				String line = br.readLine();
-				while (col < gp.maxScreenCol) {
+				while (col < gp.maxWorldCol) {
 					String numbers[] = line.split(" ");
 					int num = Integer.parseInt(numbers[col]);
 					mapTileNum[col][row] = num;
 					col++;
 				}
-				if (col == gp.maxScreenCol) {
+				if (col == gp.maxWorldCol) {
 					col = 0;
 					row++;
 				}
@@ -68,18 +83,39 @@ public class TileManager {
 	public void draw(Graphics2D g2) {
 		int col = 0;
 		int row = 0;
-		int x = 0;
-		int y = 0;
-
-		while (col < gp.maxScreenCol && row < gp.maxScreenRow) {
-			g2.drawImage(tile[0].image, x, y, gp.tileSize, gp.tileSize, null);
+		int worldX;
+		int worldY;
+		int screenX;
+		int screenY;
+		
+			
+		
+		while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
+			
+			worldX = col * gp.tileSize;
+			worldY = row * gp.tileSize;
+			screenX = worldX - gp.Player.worldX + gp.Player.screenX;
+			screenY = worldY - gp.Player.worldY + gp.Player.screenY;
+			int tileNum = mapTileNum[col][row];
+			// if(screenX < 0) { //weird texture duplicating effect that i think looks
+			// really cool but i dont know how to utilize so im just gonna keep it here for
+			// now lol
+			// screenX = 0;
+			// }
+			// if(screenY < 0) {
+			// screenY = 0;
+			// }
+			if (worldX + gp.tileSize > gp.Player.worldX - gp.Player.screenX
+					&& worldX - gp.tileSize < gp.Player.worldX + gp.Player.screenX
+					&& worldY + gp.tileSize > gp.Player.worldY - gp.Player.screenY
+					&& worldY - gp.tileSize < gp.Player.worldY + gp.Player.screenY) {
+				g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+				
+			}
 			col++;
-			x += gp.tileSize;
-			if (col == gp.maxScreenCol) {
+			if (col == gp.maxWorldCol) {
 				col = 0;
-				x = 0;
 				row++;
-				y += gp.tileSize;
 			}
 		}
 	}

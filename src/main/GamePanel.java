@@ -7,26 +7,33 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import entity.player;
+import entity.Player;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
 	// SCREEN SETTINGS
 	final int originalTileSize = 16; // 16x16 tile
-	final int scale = 3;
+	final public int scale = 3;
 
 	public final int tileSize = originalTileSize * scale; // 48x48
 	public final int maxScreenCol = 16;
 	public final int maxScreenRow = 12;
-	final int screenWidth = tileSize * maxScreenCol; // 768x576 px
-	final int screenHeight = tileSize * maxScreenRow;
+	public final int screenWidth = tileSize * maxScreenCol; // 768x576 px
+	public final int screenHeight = tileSize * maxScreenRow;
+
+	// world settings
+	public final int maxWorldCol = 50;
+	public final int maxWorldRow = 50;
+	public final int worldWidth = tileSize * maxWorldCol;
+	public final int worldHeight = tileSize * maxWorldRow;
 
 	int fps = 60;
 
 	TileManager tileM = new TileManager(this);
 	keyHandler keyH = new keyHandler();
 	Thread gameThread;
-	player Player = new player(this, keyH);
+	public CollisionChecker cChecker = new CollisionChecker(this);
+	public Player Player = new Player(this, keyH);
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -67,10 +74,11 @@ public class GamePanel extends JPanel implements Runnable {
 				drawCount++;
 			}
 			if (timer >= 1000000000) {
-				
+
 				drawCount = 0;
 				timer = 0;
 			}
+			
 		}
 	}
 

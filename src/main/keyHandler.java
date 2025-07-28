@@ -1,5 +1,6 @@
 package main;
 
+import main.GamePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -28,7 +29,6 @@ public class keyHandler implements KeyListener {
 		if (code == KeyEvent.VK_D) {
 			rightPressed = true;
 		}
-
 	}
 
 	@Override
