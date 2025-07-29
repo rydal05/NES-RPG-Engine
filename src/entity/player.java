@@ -24,8 +24,8 @@ public class Player extends Entity {
 
 		screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
 		screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
-		
-		solidArea = new Rectangle(8,16,(int)(gp.tileSize/1.5),(int)(gp.tileSize/1.5));
+
+		solidArea = new Rectangle(8, 16, 32, 32);
 
 		setDefaultValues();
 		getPlayerImage();
@@ -34,7 +34,7 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		worldX = gp.tileSize * 23;
 		worldY = gp.tileSize * 21;
-		speed = (int) (gp.scale / .75);
+		speed = /* (int) (gp.scale / .75) */ 4;
 		direction = "down";
 	}
 
@@ -62,35 +62,46 @@ public class Player extends Entity {
 				|| keyH.leftPressed == true) {
 			if (keyH.upPressed) {
 				direction = "up";
-				worldY -= speed;
 			}
 			if (keyH.downPressed) {
 				direction = "down";
-				worldY += speed;
 			}
 			if (keyH.leftPressed) {
 				direction = "left";
-				worldX -= speed;
 			}
 			if (keyH.rightPressed) {
 				direction = "right";
-				worldX += speed;
 			}
-			
+
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
-			
-			spriteCounter++;
-			if (spriteCounter > 12) {
-				if (spriteNum == 1) {
-					spriteNum = 2;
-				} else if (spriteNum == 2) {
-					spriteNum = 3;
-				} else if (spriteNum == 3) {
-					spriteNum = 2;
+
+			if (!collisionOn) {
+				if (direction == "up") { // switch case here only good for if->elseif->...->else bridges, nested ifs
+					worldY -= speed; // allow for diagonal movement
 				}
-				spriteCounter = 0;
+				if (direction == "down") {
+					worldY += speed;
+				}
+				if (direction == "left") {
+					worldX -= speed;
+				}
+				if (direction == "right") {
+					worldX += speed;
+				}
 			}
+		}
+
+		spriteCounter++;
+		if (spriteCounter > 12) {
+			if (spriteNum == 1) {
+				spriteNum = 2;
+			} else if (spriteNum == 2) {
+				spriteNum = 3;
+			} else if (spriteNum == 3) {
+				spriteNum = 2;
+			}
+			spriteCounter = 0;
 		} else {
 			spriteNum = 1;
 			spriteCounter = 11;
@@ -100,8 +111,6 @@ public class Player extends Entity {
 	public void draw(Graphics2D g2) {
 		// super.paintComponent(g);
 
-		// g2.setColor(Color.white);
-		// g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 		BufferedImage image = null;
 
 		switch (direction) {
@@ -147,5 +156,7 @@ public class Player extends Entity {
 		}
 		}
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		g2.setColor(Color.red);
+		g2.fillRect(screenX + 8, screenY + 16, 32, 32);
 	}
 }
