@@ -31,28 +31,28 @@ public class TileManager {
 	public void getTileImage() {
 		try {
 			
-			tileset = ImageIO.read(getClass().getResourceAsStream("/tiles/tileset.png"));
+			tileset = ImageIO.read(getClass().getResourceAsStream("/tiles/tileSheet.png"));
 
 			tile[0] = new Tile();
-			tile[0].image = tileset.getSubimage(0, 0, 16, 16);
+			tile[0].image = tileset.getSubimage(0, 0, 16, 16); //grass
 
 			tile[1] = new Tile();
-			tile[1].image = tileset.getSubimage(16, 0, 16, 16);
+			tile[1].image = tileset.getSubimage(32, 0, 16, 16); //wall
 			tile[1].collision = true;
 
 			tile[2] = new Tile();
-			tile[2].image = tileset.getSubimage(32, 0, 16, 16);
+			tile[2].image = tileset.getSubimage(16, 0, 16, 16); //water
 			tile[2].collision = true;
 
 			tile[3] = new Tile();
-			tile[3].image = tileset.getSubimage(64, 0, 16, 16);
+			tile[3].image = tileset.getSubimage(0, 16, 16, 16); //floor 
 
 			tile[4] = new Tile();
-			tile[4].image = tileset.getSubimage(80, 0, 16, 16);
+			tile[4].image = tileset.getSubimage(16, 16, 16, 16); //tree
 			tile[4].collision = true;
 
 			tile[5] = new Tile();
-			tile[5].image = tileset.getSubimage(96, 0, 16, 16);
+			tile[5].image = tileset.getSubimage(32, 16, 16, 16); //sand
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -95,20 +95,20 @@ public class TileManager {
 			
 		
 		while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-			
+			// if(screenX < 0) { //weird texture duplicating effect that i think looks
+						// really cool but i dont know how to utilize so im just gonna keep it here for
+						// now lol
+						// screenX = 0;
+						// }
+						// if(screenY < 0) {
+						// screenY = 0;
+						// }
 			worldX = col * gp.tileSize;
 			worldY = row * gp.tileSize;
 			screenX = worldX - gp.Player.worldX + gp.Player.screenX;
 			screenY = worldY - gp.Player.worldY + gp.Player.screenY;
 			int tileNum = mapTileNum[col][row];
-			// if(screenX < 0) { //weird texture duplicating effect that i think looks
-			// really cool but i dont know how to utilize so im just gonna keep it here for
-			// now lol
-			// screenX = 0;
-			// }
-			// if(screenY < 0) {
-			// screenY = 0;
-			// }
+			
 			if (worldX + gp.tileSize > gp.Player.worldX - gp.Player.screenX
 					&& worldX - gp.tileSize < gp.Player.worldX + gp.Player.screenX
 					&& worldY + gp.tileSize > gp.Player.worldY - gp.Player.screenY

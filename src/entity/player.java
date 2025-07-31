@@ -40,18 +40,19 @@ public class Player extends Entity {
 
 	public void getPlayerImage() {
 		try {
-			down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-			down3 = ImageIO.read(getClass().getResourceAsStream("/player/down3.png"));
-			up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-			up3 = ImageIO.read(getClass().getResourceAsStream("/player/up3.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png")); //TODO: Migrate to sourcing src/dst from spritesheets instead of pngs per sprite
-			left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-			left3 = ImageIO.read(getClass().getResourceAsStream("/player/left3.png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-			right3 = ImageIO.read(getClass().getResourceAsStream("/player/right3.png"));
+			spriteSheet = ImageIO.read(getClass().getResourceAsStream("/player/player.png"));
+			down1 = spriteSheet.getSubimage(0, 0, 16, 16);
+			down2 = spriteSheet.getSubimage(16, 0, 16, 16);
+			down3 = spriteSheet.getSubimage(32, 0, 16, 16);
+			up1 = spriteSheet.getSubimage(0, 16, 16, 16);
+			up2 = spriteSheet.getSubimage(16, 16, 16, 16);
+			up3 = spriteSheet.getSubimage(32, 16, 16, 16);
+			right1 = spriteSheet.getSubimage(0, 32, 16, 16);
+			right2 = spriteSheet.getSubimage(16, 32, 16, 16);
+			right3 = spriteSheet.getSubimage(32, 32, 16, 16);
+			left1 = spriteSheet.getSubimage(0, 48, 16, 16);
+			left2 = spriteSheet.getSubimage(16, 48, 16, 16);
+			left3 = spriteSheet.getSubimage(32, 48, 16, 16);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
