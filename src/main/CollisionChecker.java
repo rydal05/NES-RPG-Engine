@@ -29,7 +29,7 @@ public class CollisionChecker {
 			tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
 			if (gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
 				entity.collisionOn = true;
-				System.out.println("Top collision coords: " + entityTopWorldY);
+				//System.out.println("Top collision coords: " + entityTopWorldY);
 			}
 			break;
 		}
@@ -39,7 +39,7 @@ public class CollisionChecker {
 			tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
 			if (gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
 				entity.collisionOn = true;
-				System.out.println("Down collision coords: " + entityBottomWorldY);
+				//System.out.println("Down collision coords: " + entityBottomWorldY);
 			}
 			break;
 		}
@@ -49,7 +49,7 @@ public class CollisionChecker {
 			tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
 			if (gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
 				entity.collisionOn = true;
-				System.out.println("entityLeftWorldX: " + entityLeftWorldX);
+				//System.out.println("entityLeftWorldX: " + entityLeftWorldX);
 			}
 			break;
 		}
@@ -59,7 +59,7 @@ public class CollisionChecker {
 			tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
 			if (gp.tileM.tile[tileNum1].collision == true || gp.tileM.tile[tileNum2].collision == true) {
 				entity.collisionOn = true;
-				System.out.println("Right collision coords: " + entityRightWorldX);
+				//System.out.println("Right collision coords: " + entityRightWorldX);
 			}
 			break;
 		}

@@ -1,6 +1,7 @@
 package tile;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][];
+	BufferedImage tileset;
 	
 	
 
@@ -21,34 +23,36 @@ public class TileManager {
 
 		tile = new Tile[10];
 		mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
-
+		
 		getTileImage();
 		loadMap("/maps/map01.txt");
 	}
 
 	public void getTileImage() {
 		try {
+			
+			tileset = ImageIO.read(getClass().getResourceAsStream("/tiles/tileset.png"));
 
 			tile[0] = new Tile();
-			tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
+			tile[0].image = tileset.getSubimage(0, 0, 16, 16);
 
 			tile[1] = new Tile();
-			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+			tile[1].image = tileset.getSubimage(16, 0, 16, 16);
 			tile[1].collision = true;
 
 			tile[2] = new Tile();
-			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/water.png"));
+			tile[2].image = tileset.getSubimage(32, 0, 16, 16);
 			tile[2].collision = true;
 
 			tile[3] = new Tile();
-			tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/earth.png"));
+			tile[3].image = tileset.getSubimage(64, 0, 16, 16);
 
 			tile[4] = new Tile();
-			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/tree.png"));
+			tile[4].image = tileset.getSubimage(80, 0, 16, 16);
 			tile[4].collision = true;
 
 			tile[5] = new Tile();
-			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/sand.png"));
+			tile[5].image = tileset.getSubimage(96, 0, 16, 16);
 
 		} catch (IOException e) {
 			e.printStackTrace();

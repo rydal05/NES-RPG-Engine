@@ -34,7 +34,7 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		worldX = gp.tileSize * 23;
 		worldY = gp.tileSize * 21;
-		speed = /* (int) (gp.scale / .75) */ 4;
+		speed = (int) (gp.scale / .75);;
 		direction = "down";
 	}
 
@@ -46,7 +46,7 @@ public class Player extends Entity {
 			up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
 			up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
 			up3 = ImageIO.read(getClass().getResourceAsStream("/player/up3.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
+			left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png")); //TODO: Migrate to sourcing src/dst from spritesheets instead of pngs per sprite
 			left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
 			left3 = ImageIO.read(getClass().getResourceAsStream("/player/left3.png"));
 			right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
@@ -72,13 +72,13 @@ public class Player extends Entity {
 			if (keyH.rightPressed) {
 				direction = "right";
 			}
-
+			spriteCounter++;
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 
 			if (!collisionOn) {
 				if (direction == "up") { // switch case here only good for if->elseif->...->else bridges, nested ifs
-					worldY -= speed; // allow for diagonal movement
+					worldY -= speed; // allow for diagonal movement TODO: Fix this. it does not do that lol
 				}
 				if (direction == "down") {
 					worldY += speed;
@@ -90,9 +90,11 @@ public class Player extends Entity {
 					worldX += speed;
 				}
 			}
+		} else {
+			spriteCounter = 11;
+			spriteNum = 1;
 		}
 
-		spriteCounter++;
 		if (spriteCounter > 12) {
 			if (spriteNum == 1) {
 				spriteNum = 2;
@@ -102,9 +104,6 @@ public class Player extends Entity {
 				spriteNum = 2;
 			}
 			spriteCounter = 0;
-		} else {
-			spriteNum = 1;
-			spriteCounter = 11;
 		}
 	}
 
@@ -156,7 +155,7 @@ public class Player extends Entity {
 		}
 		}
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-		g2.setColor(Color.red);
-		g2.fillRect(screenX + 8, screenY + 16, 32, 32);
+		//g2.setColor(Color.red);
+		//g2.fillRect(screenX + 8, screenY + 16, 32, 32);
 	}
 }

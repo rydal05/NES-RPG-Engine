@@ -10,7 +10,7 @@ public class keyHandler implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -33,7 +33,6 @@ public class keyHandler implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_W) {
 			upPressed = false;
