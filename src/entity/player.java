@@ -17,6 +17,7 @@ public class Player extends Entity {
 
 	public final int screenX;
 	public final int screenY;
+	int hasKey = 0;
 
 	public Player(GamePanel gp, keyHandler keyH) {
 		this.gp = gp;
@@ -26,6 +27,8 @@ public class Player extends Entity {
 		screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
 		solidArea = new Rectangle(8, 16, 32, 32);
+		solidAreaDefaultX = solidArea.x;
+		solidAreaDefaultY = solidArea.y;
 
 		setDefaultValues();
 		getPlayerImage();
@@ -34,7 +37,8 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		worldX = gp.tileSize * 23;
 		worldY = gp.tileSize * 21;
-		speed = (int) (gp.scale / .75);;
+		speed = (int) (gp.scale / .75);
+		;
 		direction = "down";
 	}
 
@@ -74,8 +78,12 @@ public class Player extends Entity {
 				direction = "right";
 			}
 			spriteCounter++;
+			// check tile collision
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
+			// check obj collision
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
 
 			if (!collisionOn) {
 				if (direction == "up") { // switch case here only good for if->elseif->...->else bridges, nested ifs
@@ -105,6 +113,26 @@ public class Player extends Entity {
 				spriteNum = 2;
 			}
 			spriteCounter = 0;
+		}
+	}
+
+	public void pickUpObject(int index) {
+		if (index != 999) {
+			String objName = gp.obj[index].name;
+
+			switch (objName) {
+			case "Key":
+				hasKey++;
+				gp.obj[index] = null;
+				System.out.println("obtainkey");
+				break;
+			case "Door":
+				if (hasKey > 0) {
+					gp.obj[index] = null;
+					hasKey--;
+				}
+				System.out.println(hasKey);
+			}
 		}
 	}
 
@@ -156,7 +184,7 @@ public class Player extends Entity {
 		}
 		}
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-		//g2.setColor(Color.red);
-		//g2.fillRect(screenX + 8, screenY + 16, 32, 32);
+		// g2.setColor(Color.red);
+		// g2.fillRect(screenX + 8, screenY + 16, 32, 32);
 	}
 }
