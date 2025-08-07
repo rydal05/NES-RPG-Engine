@@ -17,7 +17,7 @@ public class Player extends Entity {
 
 	public final int screenX;
 	public final int screenY;
-	int hasKey = 0;
+	public int hasKey = 0;
 
 	public Player(GamePanel gp, keyHandler keyH) {
 		this.gp = gp;
@@ -85,20 +85,18 @@ public class Player extends Entity {
 			int objIndex = gp.cChecker.checkObject(this, true);
 			pickUpObject(objIndex);
 
-			if (!collisionOn) {
-				if (direction == "up") { // switch case here only good for if->elseif->...->else bridges, nested ifs
+				if (direction == "up" && !collisionOn) { // switch case here only good for if->elseif->...->else bridges, nested ifs
 					worldY -= speed; // allow for diagonal movement TODO: Fix this. it does not do that lol
 				}
-				if (direction == "down") {
+				if (direction == "down" && !collisionOn) {
 					worldY += speed;
 				}
-				if (direction == "left") {
+				if (direction == "left" && !collisionOn) {
 					worldX -= speed;
 				}
-				if (direction == "right") {
+				if (direction == "right" && !collisionOn) {
 					worldX += speed;
 				}
-			}
 		} else {
 			spriteCounter = 11;
 			spriteNum = 1;
@@ -124,8 +122,8 @@ public class Player extends Entity {
 			case "Key":
 				hasKey++;
 				gp.obj[index] = null;
-				System.out.println("obtainkey");
 				gp.playSE(2);
+				gp.ui.showMessage("You obtained a key.");
 				break;
 			case "Door":
 				if (hasKey > 0) {
